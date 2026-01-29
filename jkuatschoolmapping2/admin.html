@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - JKUAT Navigator</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            min-height: 100vh;
+            background: var(--bg-secondary);
+            padding: 0;
+        }
+
+        .admin-header {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-light);
+            padding: var(--spacing-lg) var(--spacing-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .admin-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .nav-btn {
+            padding: 0.625rem var(--spacing-lg);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all var(--transition-base);
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .logout-btn {
+            background: var(--error);
+            color: white;
+            border-color: var(--error);
+        }
+
+        .logout-btn:hover {
+            background: #DC2626;
+        }
+
+        .admin-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-xl);
+        }
+
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .admin-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .admin-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .data-list {
+            list-style: none;
+            margin-top: var(--spacing-lg);
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .data-info strong {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .data-info small {
+            color: var(--text-secondary);
+            font-size: 0.8125rem;
+        }
+
+        .btn-delete {
+            padding: 0.5rem var(--spacing-md);
+            background: var(--error);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .btn-delete:hover {
+            background: #DC2626;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-xl);
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                gap: var(--spacing-md);
+                align-items: flex-start;
+            }
+
+            .admin-nav {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .nav-btn {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                Admin Dashboard
+            </h1>
+            <nav class="admin-nav">
+                <button class="nav-btn active" onclick="showTab('locations')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
+                    Locations
+                </button>
+                <button class="nav-btn" onclick="showTab('alerts')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    Alerts
+                </button>
+                <button class="nav-btn" onclick="showTab('reports')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    Reports
+                </button>
+                <button class="nav-btn logout-btn" onclick="logout()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Logout
+                </button>
+            </nav>
+        </header>
+
+        <div class="admin-content">
+            <!-- Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="locationsCount">0</div>
+                    <div class="stat-label">Total Locations</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #F59E0B, #D97706);">
+                    <div class="stat-value" id="alertsCount">0</div>
+                    <div class="stat-label">Active Alerts</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(135deg, #3B82F6, #2563EB);">
+                    <div class="stat-value" id="reportsCount">0</div>
+                    <div class="stat-label">User Reports</div>
+                </div>
+            </div>
+
+            <!-- Locations Section -->
+            <div id="section-locations" class="admin-section active">
+                <div class="admin-card">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Add New Location
+                    </h3>
+                    <form id="addLocationForm">
+                        <div class="form-grid">
+                            <input type="text" id="locName" placeholder="Location Name" required>
+                            <select id="locCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="Academic">Academic</option>
+                                <option value="Admin">Administration</option>
+                                <option value="Service">Service</option>
+                                <option value="Health">Health</option>
+                                <option value="Housing">Housing</option>
+                                <option value="Recreation">Recreation</option>
+                                <option value="Dining">Dining</option>
+                                <option value="Entrance">Entrance</option>
+                                <option value="Religious">Religious</option>
+                                <option value="Banking">Banking</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Research">Research</option>
+                                <option value="Security">Security</option>
+                            </select>
+                            <input type="number" step="any" id="locLat" placeholder="Latitude (e.g., -1.0950)" required>
+                            <input type="number" step="any" id="locLng" placeholder="Longitude (e.g., 37.0130)" required>
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="locDesc" placeholder="Description (optional)">
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                                <polyline points="17 21 17 13 7 13 7 21"/>
+                                <polyline points="7 3 7 8 15 8"/>
+                            </svg>
+                            Save Location
+                        </button>
+                    </form>
+                </div>
+
+                <div class="admin-card">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        All Campus Locations
+                    </h3>
+                    <ul id="locationList" class="data-list"></ul>
+                </div>
+            </div>
+
+            <!-- Alerts Section -->
+            <div id="section-alerts" class="admin-section">
+                <div class="admin-card">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Post New Alert
+                    </h3>
+                    <form id="alertForm">
+                        <div class="form-row">
+                            <input type="text" id="alertMsg" placeholder="Alert message (e.g., 'Main Gate closed for maintenance')" required>
+                        </div>
+                        <div class="form-row">
+                            <select id="alertType" required>
+                                <option value="">Select Type</option>
+                                <option value="info">General Information</option>
+                                <option value="construction">Construction Work</option>
+                                <option value="event">Campus Event</option>
+                                <option value="emergency">Emergency</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            Broadcast Alert
+                        </button>
+                    </form>
+                </div>
+
+                <div class="admin-card">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        Active Campus Alerts
+                    </h3>
+                    <ul id="alertList" class="data-list"></ul>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div id="section-reports" class="admin-section">
+                <div class="admin-card">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        Student Reports & Issues
+                    </h3>
+                    <ul id="reportList" class="data-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Authentication check
+        if (sessionStorage.getItem('isAdmin') !== 'true') {
+            window.location.href = 'login.html';
+        }
+
+        let adminLocations = [];
+        let adminAlerts = [];
+        let adminReports = [];
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllData();
+            updateStats();
+        });
+
+        // Tab switching
+        function showTab(tabName) {
+            document.querySelectorAll('.admin-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.getElementById(`section-${tabName}`).classList.add('active');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Load all data
+        function loadAllData() {
+            adminLocations = JSON.parse(localStorage.getItem('jkuat_places') || '[]');
+            adminAlerts = JSON.parse(localStorage.getItem('jkuat_alerts') || '[]');
+            adminReports = JSON.parse(localStorage.getItem('jkuat_reports') || '[]');
+            
+            renderLocations();
+            renderAlerts();
+            renderReports();
+            updateStats();
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('locationsCount').textContent = adminLocations.length;
+            document.getElementById('alertsCount').textContent = adminAlerts.length;
+            document.getElementById('reportsCount').textContent = adminReports.length;
+        }
+
+        // LOCATIONS
+        function renderLocations() {
+            const list = document.getElementById('locationList');
+            if (adminLocations.length === 0) {
+                list.innerHTML = '<div class="empty-state">No locations added yet</div>';
+                return;
+            }
+            list.innerHTML = adminLocations.map((loc, i) => `
+                <li class="data-item">
+                    <div class="data-info">
+                        <strong>${loc.name}</strong><br>
+                        <small>${loc.category} • Lat: ${loc.lat}, Lng: ${loc.lng}</small>
+                        ${loc.description ? `<br><small>${loc.description}</small>` : ''}
+                    </div>
+                    <button onclick="deleteLocation(${i})" class="btn-delete">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                        Delete
+                    </button>
+                </li>
+            `).join('');
+        }
+
+        function deleteLocation(index) {
+            if (confirm('Delete this location? This action cannot be undone.')) {
+                adminLocations.splice(index, 1);
+                localStorage.setItem('jkuat_places', JSON.stringify(adminLocations));
+                renderLocations();
+                updateStats();
+            }
+        }
+
+        // ALERTS
+        function renderAlerts() {
+            const list = document.getElementById('alertList');
+            if (adminAlerts.length === 0) {
+                list.innerHTML = '<div class="empty-state">No active alerts</div>';
+                return;
+            }
+            list.innerHTML = adminAlerts.map((alert, i) => `
+                <li class="data-item">
+                    <div class="data-info">
+                        <strong>${alert.msg}</strong><br>
+                        <small>${alert.type} • ${alert.date || 'Recently posted'}</small>
+                    </div>
+                    <button onclick="deleteAlert(${i})" class="btn-delete">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                        Remove
+                    </button>
+                </li>
+            `).join('');
+        }
+
+        function deleteAlert(index) {
+            if (confirm('Remove this alert?')) {
+                adminAlerts.splice(index, 1);
+                localStorage.setItem('jkuat_alerts', JSON.stringify(adminAlerts));
+                renderAlerts();
+                updateStats();
+            }
+        }
+
+        // REPORTS
+        function renderReports() {
+            const list = document.getElementById('reportList');
+            if (adminReports.length === 0) {
+                list.innerHTML = '<div class="empty-state">No reports submitted yet</div>';
+                return;
+            }
+            list.innerHTML = adminReports.map((report, i) => `
+                <li class="data-item">
+                    <div class="data-info">
+                        <strong>${report.type}</strong><br>
+                        <small>${report.description}</small><br>
+                        <small>Reported: ${report.date}</small>
+                        ${report.lat ? `<br><small>Location: ${report.lat}, ${report.lng}</small>` : ''}
+                    </div>
+                    <button onclick="deleteReport(${i})" class="btn-delete">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                        Delete
+                    </button>
+                </li>
+            `).join('');
+        }
+
+        function deleteReport(index) {
+            if (confirm('Delete this report?')) {
+                adminReports.splice(index, 1);
+                localStorage.setItem('jkuat_reports', JSON.stringify(adminReports));
+                renderReports();
+                updateStats();
+            }
+        }
+
+        // FORM HANDLERS
+        document.getElementById('addLocationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newLoc = {
+                name: document.getElementById('locName').value,
+                category: document.getElementById('locCategory').value,
+                lat: parseFloat(document.getElementById('locLat').value),
+                lng: parseFloat(document.getElementById('locLng').value),
+                description: document.getElementById('locDesc').value || ''
+            };
+            adminLocations.push(newLoc);
+            localStorage.setItem('jkuat_places', JSON.stringify(adminLocations));
+            renderLocations();
+            updateStats();
+            e.target.reset();
+            alert('Location added successfully!');
+        });
+
+        document.getElementById('alertForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const alert = {
+                msg: document.getElementById('alertMsg').value,
+                type: document.getElementById('alertType').value,
+                date: new Date().toLocaleString()
+            };
+            adminAlerts.push(alert);
+            localStorage.setItem('jkuat_alerts', JSON.stringify(adminAlerts));
+            renderAlerts();
+            updateStats();
+            e.target.reset();
+            alert('Alert posted successfully!');
+        });
+
+        // Logout
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.removeItem('isAdmin');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>
