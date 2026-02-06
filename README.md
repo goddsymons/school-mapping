@@ -1,6 +1,7 @@
 # JKUAT Smart Campus Navigator
 
 ## Link ##
+https://jkuat-mapping.42web.io
 
 ## 🎯 Overview
 
