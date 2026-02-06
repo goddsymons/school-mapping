@@ -1,17 +1,17 @@
 # JKUAT Smart Campus Navigator
 
-A modern, feature-rich campus navigation system for Jomo Kenyatta University of Agriculture and Technology (JKUAT).
+## Link ##
 
 ## 🎯 Overview
 
-This enhanced version of the JKUAT Smart Navigator provides students, staff, and visitors with an intuitive way to navigate the campus, manage class schedules, and report issues.
+The JKUAT Smart Navigator provides students, staff, and visitors with an intuitive way to navigate the campus, manage class schedules, and report issues.
 
 ## ✨ Key Features
 
 ### 🗺️ Interactive Map
-- **Comprehensive Coverage**: All major campus buildings, facilities, and landmarks
+- **Comprehensive Coverage**:Major campus buildings, facilities, and landmarks
 - **Dual View Modes**: Toggle between Street View and Satellite View
-- **90+ Locations**: Academic buildings, hostels, dining halls, sports facilities, and more
+- **Locations**: Academic buildings, hostels, dining halls, sports facilities, and more
 - **Custom Markers**: Color-coded by category for easy identification
 
 ### 📍 Enhanced Location Services
