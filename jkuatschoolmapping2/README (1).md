@@ -9,18 +9,21 @@ This enhanced version of the JKUAT Smart Navigator provides students, staff, and
 ## ✨ Key Features
 
 ### 🗺️ Interactive Map
+
 - **Comprehensive Coverage**: All major campus buildings, facilities, and landmarks
 - **Dual View Modes**: Toggle between Street View and Satellite View
 - **90+ Locations**: Academic buildings, hostels, dining halls, sports facilities, and more
 - **Custom Markers**: Color-coded by category for easy identification
 
 ### 📍 Enhanced Location Services
+
 - **High-Accuracy GPS**: Improved location tracking with accuracy indicators
 - **Continuous Tracking**: Real-time position updates
 - **Visual Feedback**: Pulsing marker shows your current location
 - **Accuracy Circle**: Visual representation of GPS precision
 
 ### 🔍 Intelligent Search
+
 - **Campus-Specific**: Searches only JKUAT locations
 - **Smart Filtering**: Search by building name, category, or description
 - **Live Results**: Instant search results as you type
@@ -28,24 +31,33 @@ This enhanced version of the JKUAT Smart Navigator provides students, staff, and
 - **Highlighted Matches**: Search terms highlighted in results
 
 ### 🧭 Turn-by-Turn Navigation
-- **Walking Directions**: Direct path from your location to any campus building
-- **Distance Calculation**: See how far your destination is
-- **Visual Route**: Dashed line shows your path
-- **Voice Guidance**: Optional voice announcements (can be enabled in settings)
+
+- **Road-Based Routing**: Follows actual walkable paths and roads on campus
+- **Powered by OSRM**: Uses OpenStreetMap Routing Machine for accurate routes
+- **Walking Directions**: Optimized for pedestrian paths
+- **Step-by-Step Instructions**: Turn-by-turn directions displayed in routing panel
+- **Distance & Time**: See actual walking distance and estimated time
+- **Visual Route**: Highlighted path on the map
+- **Fallback Mode**: Shows direct line if routing service unavailable
+- **Clear Route**: Easy button to remove current route and start fresh
+- **Voice Guidance**: Optional voice announcements for directions
 
 ### 📅 Class Schedule Management
+
 - **Add Classes**: Store your weekly schedule with venue and time
 - **Organized View**: Classes grouped by day
 - **Quick Navigation**: Tap to navigate directly to class venue
 - **Smart Reminders**: 15-minute notifications before class (browser must be open)
 
 ### 📝 Campus Issue Reporting
+
 - **Multiple Categories**: Maintenance, Infrastructure, Security, Cleanliness, Lighting
 - **Location Tagging**: Attach GPS coordinates to your report
 - **Detailed Descriptions**: Provide comprehensive information about issues
 - **Admin Dashboard**: All reports visible to campus administrators
 
 ### 🎨 Modern Design
+
 - **Clean Interface**: Professional, intuitive user interface
 - **Dark Mode**: Full dark theme support for night use
 - **Responsive**: Works perfectly on phones, tablets, and desktops
@@ -53,6 +65,7 @@ This enhanced version of the JKUAT Smart Navigator provides students, staff, and
 - **Accessibility**: Proper ARIA labels and keyboard navigation
 
 ### 🔐 Admin Dashboard
+
 - **Location Management**: Add, edit, and remove campus locations
 - **Alert Broadcasting**: Post campus-wide notifications and alerts
 - **Report Monitoring**: View and manage user-submitted reports
@@ -76,7 +89,7 @@ jkuat-navigator/
 
 1. **Download Files**: Save all files to a folder on your computer
 
-2. **Open in Browser**: 
+2. **Open in Browser**:
    - Double-click `index.html` to open the main app
    - Or right-click → Open with → Your preferred browser
 
@@ -89,6 +102,7 @@ jkuat-navigator/
 For full functionality, especially GPS features, serve over HTTPS:
 
 **Using Python:**
+
 ```bash
 # Python 3
 python -m http.server 8000
@@ -97,6 +111,7 @@ python -m http.server 8000
 ```
 
 **Using Node.js:**
+
 ```bash
 # Install http-server globally
 npm install -g http-server
@@ -108,6 +123,7 @@ http-server
 ```
 
 **Using PHP:**
+
 ```bash
 php -S localhost:8000
 
@@ -119,6 +135,7 @@ php -S localhost:8000
 The system includes detailed information for 90+ locations:
 
 ### Categories:
+
 - **Academic Buildings** (16): Science Complex, Engineering Labs, Computer Labs, etc.
 - **Administration** (6): Assembly Hall, Finance Office, Registrar, etc.
 - **Student Services** (8): Library, Student Centre, Counseling, Career Services
@@ -151,7 +168,12 @@ The system includes detailed information for 90+ locations:
    - Find your destination on the map
    - Click the marker
    - Tap "Get Directions" in the popup
-   - Follow the green dashed line
+   - A routing panel appears showing:
+     - Total walking distance
+     - Estimated time
+     - Turn-by-turn instructions
+   - Follow the green highlighted route on the map
+   - Use the "×" button (bottom right) to clear the route when done
 
 4. **Quick Access**:
    - Use category buttons for fast filtering
@@ -203,16 +225,19 @@ The system includes detailed information for 90+ locations:
 ### Admin Features
 
 **Location Management**:
+
 - Add new campus locations with coordinates
 - Include name, category, and description
 - Delete outdated locations
 
 **Alert Broadcasting**:
+
 - Post campus-wide notifications
 - Types: Info, Construction, Event, Emergency
 - Alerts appear at top of student app
 
 **Report Monitoring**:
+
 - View all user-submitted reports
 - See issue type, description, and location
 - Delete resolved reports
@@ -239,9 +264,9 @@ In `style.css`, modify CSS variables:
 
 ```css
 :root {
-    --primary: #1B5E20;        /* Main green color */
-    --primary-light: #2E7D32;  /* Lighter green */
-    --accent: #4CAF50;         /* Accent color */
+  --primary: #1b5e20; /* Main green color */
+  --primary-light: #2e7d32; /* Lighter green */
+  --accent: #4caf50; /* Accent color */
 }
 ```
 
@@ -250,12 +275,13 @@ In `style.css`, modify CSS variables:
 In `app.js`, change:
 
 ```javascript
-const JKUAT_COORDS = [-1.0950, 37.0130];  // [latitude, longitude]
+const JKUAT_COORDS = [-1.095, 37.013]; // [latitude, longitude]
 ```
 
 ## 🌐 Browser Compatibility
 
 **Fully Supported**:
+
 - Chrome 90+ ✅
 - Firefox 88+ ✅
 - Safari 14+ ✅
@@ -263,6 +289,7 @@ const JKUAT_COORDS = [-1.0950, 37.0130];  // [latitude, longitude]
 - Mobile browsers (iOS Safari, Chrome Mobile) ✅
 
 **Required Features**:
+
 - Geolocation API (for GPS)
 - LocalStorage (for data persistence)
 - Web Speech API (for voice guidance)
@@ -286,24 +313,36 @@ const JKUAT_COORDS = [-1.0950, 37.0130];  // [latitude, longitude]
 ## 🐛 Troubleshooting
 
 **GPS Not Working:**
+
 - Check browser location permissions
 - Ensure you're using HTTPS or localhost
 - Try refreshing the page
 - Check if GPS is enabled on device
 
 **Map Not Loading:**
+
 - Check internet connection
 - Clear browser cache
 - Try different browser
 - Verify Leaflet CDN is accessible
 
+**Routing/Directions Not Working:**
+
+- Ensure internet connection is active (routing requires online service)
+- Check if OSRM routing service is accessible
+- If routing panel doesn't appear, app will fallback to direct line
+- Try clearing the route and requesting again
+- Refresh the page if routing completely fails
+
 **Search Not Showing Results:**
+
 - Check spelling
 - Try partial words
 - Use category filters
 - Ensure data is loaded (check console)
 
 **Admin Login Not Working:**
+
 - Verify credentials (admin/admin123)
 - Clear browser cache
 - Check if JavaScript is enabled
@@ -311,6 +350,7 @@ const JKUAT_COORDS = [-1.0950, 37.0130];  // [latitude, longitude]
 ## 🎯 Future Enhancements
 
 Potential features for future versions:
+
 - Offline map support with service workers
 - Real-time bus tracking
 - Indoor navigation for large buildings
@@ -328,6 +368,7 @@ This project is for educational purposes. JKUAT branding and campus data used wi
 ## 🤝 Contributing
 
 To contribute:
+
 1. Test thoroughly on multiple devices
 2. Follow existing code style
 3. Document any changes
@@ -345,6 +386,7 @@ To contribute:
 ## 📞 Support
 
 For issues or questions:
+
 - Check the Troubleshooting section
 - Review browser console for error messages
 - Ensure all files are present and unmodified

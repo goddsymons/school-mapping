@@ -5,7 +5,7 @@
 
 // Configuration
 const JKUAT_COORDS = [-1.0950, 37.0130];
-let map, userMarker, routeLine, locationWatchId;
+let map, userMarker, routeLine, routingControl, locationWatchId;
 let streetLayer, satLayer, currentLayer = 'street';
 let userPosition = null;
 let locationAccuracy = null;
@@ -369,6 +369,8 @@ function handleLocationError(error) {
 // NAVIGATION & ROUTING
 // ====================================
 
+routingControl = null;
+
 function navigate(destLat, destLng, name) {
     if (!userPosition) {
         showNotification('Please find your location first', 'warning');
@@ -376,20 +378,100 @@ function navigate(destLat, destLng, name) {
         return;
     }
 
-    // Remove old route
+    // Remove old route and routing control
     if (routeLine) {
         map.removeLayer(routeLine);
+        routeLine = null;
+    }
+    
+    if (routingControl) {
+        map.removeControl(routingControl);
+        routingControl = null;
     }
 
-    // Calculate distance
-    const distance = calculateDistance(
+    // Calculate straight-line distance for reference
+    const straightDistance = calculateDistance(
         userPosition.lat,
         userPosition.lng,
         destLat,
         destLng
     );
 
-    // Draw route
+    // Check if Leaflet Routing Machine is available
+    if (typeof L.Routing !== 'undefined' && L.Routing.control) {
+        // Use routing for road-based directions
+        routingControl = L.Routing.control({
+            waypoints: [
+                L.latLng(userPosition.lat, userPosition.lng),
+                L.latLng(destLat, destLng)
+            ],
+            router: L.Routing.osrmv1({
+                serviceUrl: 'https://router.project-osrm.org/route/v1',
+                profile: 'foot' // Walking route
+            }),
+            routeWhileDragging: false,
+            addWaypoints: false,
+            draggableWaypoints: false,
+            fitSelectedRoutes: true,
+            showAlternatives: false,
+            lineOptions: {
+                styles: [
+                    {
+                        color: '#2E7D32',
+                        opacity: 0.8,
+                        weight: 6
+                    }
+                ],
+                extendToWaypoints: true,
+                missingRouteTolerance: 0
+            },
+            createMarker: function() { return null; }, // Don't show default markers
+            show: true,
+            collapsible: true,
+            containerClassName: 'routing-container'
+        }).addTo(map);
+
+        // Show clear route button
+        const clearBtn = document.getElementById('clearRouteBtn');
+        if (clearBtn) clearBtn.style.display = 'flex';
+
+        // Listen for route found
+        routingControl.on('routesfound', function(e) {
+            const routes = e.routes;
+            const summary = routes[0].summary;
+            const distance = Math.round(summary.totalDistance);
+            const time = Math.round(summary.totalTime / 60);
+            
+            showNotification(
+                `Route to ${name}: ${distance}m walking distance (${time} min)`,
+                'success'
+            );
+            
+            if (voiceEnabled) {
+                speak(`Route found to ${name}. Walking distance is ${distance} meters, approximately ${time} minutes.`);
+            }
+        });
+
+        // Listen for routing errors
+        routingControl.on('routingerror', function(e) {
+            console.error('Routing error:', e);
+            // Fall back to straight line if routing fails
+            createStraightLineRoute(destLat, destLng, name, straightDistance);
+        });
+
+    } else {
+        // Fallback to straight line if routing library not available
+        createStraightLineRoute(destLat, destLng, name, straightDistance);
+    }
+
+    // Close sidebar on mobile
+    if (window.innerWidth < 768) {
+        toggleSidebar();
+    }
+}
+
+// Fallback function for straight-line routing
+function createStraightLineRoute(destLat, destLng, name, distance) {
     routeLine = L.polyline(
         [[userPosition.lat, userPosition.lng], [destLat, destLng]],
         {
@@ -406,15 +488,17 @@ function navigate(destLat, destLng, name) {
         padding: [80, 80]
     });
 
-    // Close sidebar on mobile
-    if (window.innerWidth < 768) {
-        toggleSidebar();
-    }
+    // Show clear route button
+    const clearBtn = document.getElementById('clearRouteBtn');
+    if (clearBtn) clearBtn.style.display = 'flex';
 
-    showNotification(`Navigating to ${name} (${distance}m away)`, 'success');
+    showNotification(
+        `Direct path to ${name} (${distance}m as the crow flies)`,
+        'info'
+    );
 
     if (voiceEnabled) {
-        speak(`Navigating to ${name}. Distance is approximately ${distance} meters.`);
+        speak(`Showing direct path to ${name}. Distance is approximately ${distance} meters.`);
     }
 }
 
@@ -602,6 +686,24 @@ function toggleMapLayer() {
         currentLayer = 'street';
         showNotification('Switched to Street View', 'info');
     }
+}
+
+function clearRoute() {
+    if (routeLine) {
+        map.removeLayer(routeLine);
+        routeLine = null;
+    }
+    
+    if (routingControl) {
+        map.removeControl(routingControl);
+        routingControl = null;
+    }
+    
+    // Hide clear route button
+    const clearBtn = document.getElementById('clearRouteBtn');
+    if (clearBtn) clearBtn.style.display = 'none';
+    
+    showNotification('Route cleared', 'info');
 }
 
 // ====================================

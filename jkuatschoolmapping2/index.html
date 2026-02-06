@@ -271,6 +271,12 @@
 
     <!-- Floating Action Buttons -->
     <div class="fab-container">
+        <button class="fab" id="clearRouteBtn" onclick="clearRoute()" title="Clear Route" aria-label="Clear current route" style="display: none;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
         <button class="fab" onclick="toggleMapLayer()" title="Toggle Map View" aria-label="Toggle satellite/street view">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"/>
@@ -295,6 +301,7 @@
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

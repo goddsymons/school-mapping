@@ -1148,6 +1148,131 @@ textarea {
 }
 
 /* ====================================
+   ROUTING CONTROL CUSTOMIZATION
+   ==================================== */
+
+.routing-container {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    max-width: 320px;
+}
+
+.leaflet-routing-container {
+    background: var(--bg-primary);
+    padding: 0;
+}
+
+.leaflet-routing-container h2,
+.leaflet-routing-container h3 {
+    background: var(--primary);
+    color: white;
+    padding: var(--spacing-md) var(--spacing-lg);
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.leaflet-routing-alt {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-light);
+    padding: var(--spacing-md);
+}
+
+.leaflet-routing-alt:hover {
+    background: var(--bg-secondary);
+}
+
+.leaflet-routing-alt h3 {
+    background: transparent;
+    color: var(--text-primary);
+    padding: 0;
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9375rem;
+}
+
+.leaflet-routing-alt-minimized {
+    display: none;
+}
+
+.leaflet-routing-geocoders {
+    display: none;
+}
+
+.leaflet-routing-collapse-btn {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background var(--transition-base);
+}
+
+.leaflet-routing-collapse-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.leaflet-routing-icon {
+    display: none;
+}
+
+.leaflet-routing-instruction {
+    padding: var(--spacing-sm) 0;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+.leaflet-routing-instruction .leaflet-routing-instruction-text {
+    color: var(--text-primary);
+}
+
+.leaflet-routing-instruction .leaflet-routing-instruction-distance {
+    color: var(--text-secondary);
+    font-size: 0.8125rem;
+}
+
+/* Dark mode routing */
+[data-theme="dark"] .leaflet-routing-container {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .leaflet-routing-alt {
+    background: var(--bg-secondary);
+    border-bottom-color: var(--border-light);
+}
+
+[data-theme="dark"] .leaflet-routing-alt:hover {
+    background: var(--bg-tertiary);
+}
+
+/* Hide routing on mobile when sidebar is open */
+@media (max-width: 768px) {
+    .routing-container {
+        top: auto;
+        bottom: 120px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    .sidebar.active ~ .routing-container {
+        display: none;
+    }
+}
+
+/* ====================================
    RESPONSIVE DESIGN
    ==================================== */
 
